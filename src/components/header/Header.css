@@ -1,0 +1,21 @@
+header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+header .header__logo {
+  width: 4rem;
+  animation: rotate 2s linear infinite;
+}
+.Titulo{
+ font-size: 40px;
+ color:white;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

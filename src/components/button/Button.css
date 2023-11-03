@@ -1,0 +1,26 @@
+.ui-change-btn {
+  color: white;
+  width: fit-content;
+  padding: 1rem 2rem;
+  display: flex;
+  font-size: 1rem;
+  background-color: black;
+  cursor: pointer;
+  align-items: center;
+}
+
+.carri{
+  width: 60px;
+  height: 40;
+}
+.ui-change-btn span {
+  background: black;
+  display: inline-block;
+  padding: 0.4rem;
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--color-white);
+  width: 60px;
+  height: 40px;
+}
+
