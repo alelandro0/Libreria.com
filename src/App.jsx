@@ -5,10 +5,15 @@ import CardBody from "./components/cards/CardBody";
 import Button from "./components/button/Button";
 
 import "./App.css";
+
 const App = () => {
-  const [items, setItem] = useState([]);
+  // Recuperar los datos almacenados en localStorage al cargar la página
+  const storedItems = JSON.parse(localStorage.getItem("items")) || [];
+  const storedAddedItems = JSON.parse(localStorage.getItem("addedItems")) || [];
+
+  const [items, setItems] = useState(storedItems);
   const [searchValue, setSearchValue] = useState("");
-  const [addedItems, setAddedItem] = useState([]);
+  const [addedItems, setAddedItems] = useState(storedAddedItems);
   const [showAddProducts, setShowAddProducts] = useState(false);
 
   useEffect(() => {
@@ -17,53 +22,53 @@ const App = () => {
       .then((data) => {
         // Asegúrate de que data.results sea un arreglo antes de almacenarlo en el estado.
         if (Array.isArray(data.results)) {
-          setItem(data.results);
+          setItems(data.results);
+          // Almacenar en localStorage cada vez que se actualiza 'items'
+          localStorage.setItem("items", JSON.stringify(data.results));
         }
       });
-    console.count("hi");
   }, []);
-  
-  const itmesFilter = items.filter((item) =>
+
+  const itemsFilter = items.filter((item) =>
     item.title.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   function addItem(item) {
     item.addNumber = 1;
-    const itemArr = addedItems;
-    setAddedItem([...itemArr, item]);
+    setAddedItems([...addedItems, item]);
   }
-  // console.log(addedItems);
+
   function removeItem(item) {
     const newItems = addedItems.filter((addedItem) => addedItem.id !== item.id);
-    setAddedItem(newItems);
-    // console.log(addedItems);
+    setAddedItems(newItems);
   }
-  
+
+  // Almacenar en localStorage cada vez que se actualiza 'addedItems'
+  useEffect(() => {
+    localStorage.setItem("addedItems", JSON.stringify(addedItems));
+  }, [addedItems]);
+
   return (
     <div>
-      {/* <Header /> */}
-
       <div className="body__container">
         <div className="nav">
           <Header />
           <div className="nav-right">
-         
             <Button num={addedItems.length} click={setShowAddProducts} />
           </div>
         </div>
-         <br />
-         <br />
+        <br />
+        <br />
         {showAddProducts && (
-
           <AddProducts
             click={setShowAddProducts}
             items={addedItems}
             removeItem={removeItem}
-            setAddedItem={setAddedItem}
+            setAddedItem={setAddedItems}
           />
         )}
         <CardBody
-          products={itmesFilter}
+          products={itemsFilter}
           addItem={addItem}
           removeItem={removeItem}
           addedItems={addedItems}
